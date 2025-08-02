@@ -2,8 +2,7 @@
 trigger:
 - none
 
-pool:
-  vmImage: testingpool
+pool: testingpool
 
 steps:
 - task: TerraformInstaller@1
