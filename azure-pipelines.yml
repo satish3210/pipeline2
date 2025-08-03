@@ -3,6 +3,24 @@ trigger:
 - none
 
 pool: testingpool
+variables:
+  secret: '$(azure-fed)'
+  
+parameters:
+- name: runInit
+  displayName: "terrafom init"
+  type: boolean
+  default: false
+
+- name: runplan
+  displayName: "terraform plan"
+  type: boolean
+  default: false
+
+- name: runapply
+  displayName: "terraform apply"
+  type: boolean
+  default: false
 
 steps:
 - task: TerraformInstaller@1
@@ -14,7 +32,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    backendServiceArm: 'azure-fed'
+    backendServiceArm: 'secret'
     backendAzureRmStorageAccountName: 'storage5'
     backendAzureRmContainerName: 'cont1'
     backendAzureRmKey: 'terraform.tfstate'
@@ -23,11 +41,11 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'plan'
-    environmentServiceNameAzureRM: 'azure-fed'
+    environmentServiceNameAzureRM: 'secret'
 - task: TerraformTask@5
   displayName: Terraform apply
   inputs:
     provider: 'azurerm'
     command: 'apply'
     commandOptions: '--auto-approve'
-    environmentServiceNameAzureRM: 'azure-fed'
+    environmentServiceNameAzureRM: 'secret'
