@@ -34,7 +34,7 @@ steps:
       provider: 'azurerm'
       command: 'init'
       backendServiceArm: '$(secret)'
-      backendAzureRmStorageAccountName: 'storage5'
+      backendAzureRmStorageAccountName: 'storage552'
       backendAzureRmContainerName: 'cont1'
       backendAzureRmKey: 'terraform.tfstate'
 
