@@ -1,14 +1,14 @@
-
 trigger:
 - none
 
 pool: testingpool
+
 variables:
   secret: '$(azure-fed)'
 
 parameters:
 - name: runInit
-  displayName: "terrafom init"
+  displayName: "terraform init"
   type: boolean
   default: false
 
@@ -26,30 +26,31 @@ steps:
 - task: TerraformInstaller@1
   inputs:
     terraformVersion: 'latest'
+
 - ${{ if eq(parameters.runInit, true) }}:
-- task: TerraformTask@5
-  displayName: Terraform init
-  inputs:
-    provider: 'azurerm'
-    command: 'init'
-    backendServiceArm: 'secret'
-    backendAzureRmStorageAccountName: 'storage5'
-    backendAzureRmContainerName: 'cont1'
-    backendAzureRmKey: 'terraform.tfstate'
+  - task: TerraformTask@5
+    displayName: Terraform init
+    inputs:
+      provider: 'azurerm'
+      command: 'init'
+      backendServiceArm: '$(secret)'
+      backendAzureRmStorageAccountName: 'storage5'
+      backendAzureRmContainerName: 'cont1'
+      backendAzureRmKey: 'terraform.tfstate'
 
 - ${{ if eq(parameters.runplan, true) }}:
-- task: TerraformTask@5
-  displayName: Terraform plan
-  inputs:
-    provider: 'azurerm'
-    command: 'plan'
-    environmentServiceNameAzureRM: 'secret'
+  - task: TerraformTask@5
+    displayName: Terraform plan
+    inputs:
+      provider: 'azurerm'
+      command: 'plan'
+      environmentServiceNameAzureRM: '$(secret)'
 
 - ${{ if eq(parameters.runapply, true) }}:
-- task: TerraformTask@5
-  displayName: Terraform apply
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    commandOptions: '--auto-approve'
-    environmentServiceNameAzureRM: 'secret'
+  - task: TerraformTask@5
+    displayName: Terraform apply
+    inputs:
+      provider: 'azurerm'
+      command: 'apply'
+      commandOptions: '--auto-approve'
+      environmentServiceNameAzureRM: '$(secret)'
