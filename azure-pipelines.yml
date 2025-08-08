@@ -4,7 +4,7 @@ trigger:
 pool: testingpool
 
 variables:
-  secret: '$(azure-fed)'
+  secret: azure-fed
 
 parameters:
 - name: runInit
